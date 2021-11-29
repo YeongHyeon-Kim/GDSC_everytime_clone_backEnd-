@@ -123,6 +123,36 @@ public class BoardService {
 			return boardDto;
 		}).collect(Collectors.toList());
 		return response;
+	}
+//	@Transactional
+//	public List<BoardDto.ResponseDto> mainFilter(int category, boolean isHot){
+//
+//	}
 
+	@Transactional
+	public List<BoardDto.SearchResponseDto> search(int category, String keyword){
+		List<Board> board;
+		if (category==0){
+			board = boardRepository.findAllByContentOrTitleContaining(keyword,keyword);
+		}else{
+			board = boardRepository.searchByCategoryId(category,keyword,keyword);
+		}
+		if (!board.isEmpty()) {
+			List<BoardDto.SearchResponseDto> response = board.stream().map(boards -> {
+				String nickname;
+				if (boards.getIsSecret()) {
+					nickname = "익명";
+				} else {
+					nickname = boards.getUser().getNickname();
+				}
+				BoardDto.SearchResponseDto boardDto = modelMapper.map(boards, BoardDto.SearchResponseDto.class);
+				boardDto.setCreatedAt(boards.getCreatedAt().format(DateTimeFormatter.ofPattern("yyMMdd")));
+				boardDto.setNickname(nickname);
+				return boardDto;
+			}).collect(Collectors.toList());
+			return response;
+		}else{
+			return null;
+		}
 	}
 }

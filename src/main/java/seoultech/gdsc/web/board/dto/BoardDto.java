@@ -97,4 +97,17 @@ public class BoardDto {
 		private String nickname;
 		private String profilePic;
 	}
+	@NoArgsConstructor
+	@AllArgsConstructor
+	@Getter
+	@Setter
+	public static class SearchResponseDto{
+		private int id;
+		private String title;
+		private String content;
+		private int likeNum;
+		private int commentNum;
+		private String createdAt;
+		private String nickname;
+	}
 }

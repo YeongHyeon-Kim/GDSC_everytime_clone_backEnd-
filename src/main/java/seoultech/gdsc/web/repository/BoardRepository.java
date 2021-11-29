@@ -27,4 +27,11 @@ public interface BoardRepository extends JpaRepository<Board, Integer> {
 	@Query(value = "select * from board where created_at > date_add(now(),interval-24 hour) and is_hot = true order by like_num+comment_num desc, created_at desc limit 2", nativeQuery = true)
 	List<Board> getRealTime();
 
+	List<Board> findAllByContentOrTitleContaining(String keyword1,String keyword2);
+
+//	@Query("select board from Board board where board.categoryId=?1 and (board.content like %?2% or board.title like %?3%)")
+//	Optional<List<Board>> searchByCategoryId(int category,String keyword1,String keyword2);
+
+	@Query(value = "select * from board where category_id=?1 and (content like %?2% or title like %?2%)", nativeQuery = true)
+	List<Board> searchByCategoryId(int category,String keyword1,String keyword2);
 }

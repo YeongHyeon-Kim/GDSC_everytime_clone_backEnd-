@@ -27,13 +27,13 @@ public class MessageRepositoryTest {
 
 	@Test
 	public void saveMessageTest(){
-		user1 = userRepository.findById(1).get();
-		user2 = userRepository.findById(2).get();
+		user1 = userRepository.findById(3).get();
+		user2 = userRepository.findById(5).get();
 
 		newMessage = Message.builder()
 				.fromUser(user1)
 				.toUser(user2)
-				.content("테스트 메세지")
+				.content("3이 5한테 보내는 메세지2")
 				.build();
 		messageRepository.save(newMessage);
 	}

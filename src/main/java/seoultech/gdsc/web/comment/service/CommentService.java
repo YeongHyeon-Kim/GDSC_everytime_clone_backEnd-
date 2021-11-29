@@ -31,7 +31,7 @@ public class CommentService {
 		List<Comment> comments = commentRepository.findAllByBoardId_Id(id);
 		List<BoardDto.GetCommentRequest> getCommentRequest = comments.stream().map(comment -> {
 			BoardDto.GetCommentRequest getComment = modelMapper.map(comment, BoardDto.GetCommentRequest.class);
-			getComment.setCreatedAt(comment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyMMddHHss")));
+			getComment.setCreatedAt(comment.getCreatedAt().format(DateTimeFormatter.ofPattern("yyMMddHHmm")));
 			if (comment.getIsSecret()){
 				getComment.setNickname("익명");
 				getComment.setProfilePic("익명 사진");

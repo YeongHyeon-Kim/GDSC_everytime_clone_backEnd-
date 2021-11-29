@@ -10,6 +10,7 @@ import seoultech.gdsc.web.response.BasicResponse;
 import seoultech.gdsc.web.response.EmptyJsonResponse;
 import seoultech.gdsc.web.response.SuccessResponse;
 
+import javax.persistence.Basic;
 import javax.servlet.http.HttpSession;
 import java.util.Optional;
 import java.util.List;
@@ -66,5 +67,26 @@ public class BoardApiController {
 	public BasicResponse getRealTime(){
 		List<BoardDto.RealtimeResponseDto> board = boardService.getRealTime();
 		return new SuccessResponse<>(board);
+	}
+	//나중에 완성
+//	@GetMapping("/main/filter")
+//	public BasicResponse mainFilter(@RequestParam(value= "category") int category,@RequestParam(value= "hot") boolean isHot){
+//		List<BoardDto.ResponseDto> board = boardService.mainFilter(category, isHot);
+//		return new SuccessResponse<>(board);
+//
+//	}
+
+	@GetMapping("/search")
+	public BasicResponse search(@RequestParam(value= "category") int category,@RequestParam(value= "keyword") String keyword){
+		List<BoardDto.SearchResponseDto> board = boardService.search(category, keyword);
+		if (board!=null){
+			return new SuccessResponse<>(board);
+		}else{
+			System.out.println("여기");
+			return new SuccessResponse<>("관련된 게시글이 없습니다.");
+
+		}
+
+
 	}
 }

@@ -36,12 +36,12 @@ public class UserRepositoryTest extends WebApplicationTests {
 		String encodedPassword = passwordEncoder.encode(password);
 
 		newUser = User.builder()
-				.userId("kim")
-				.email("insut@naver.com")
-				.name("김영현")
+				.userId("kim3")
+				.email("insut2@naver.com")
+				.name("김영현3")
 				.hp("01047419394")
 				.major("ITM")
-				.nickname("kyh")
+				.nickname("kyh3")
 				.password(encodedPassword)
 				.build();
 		userRepository.save(newUser);

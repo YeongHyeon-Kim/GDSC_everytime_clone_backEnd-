@@ -35,7 +35,6 @@ public class UserApiController {
 
 	@GetMapping("")
 	public BasicResponse getUser(){
-
 		Object id = session.getAttribute("logInUserInfo");
 		if (id==null){
 			return new FailResponse<>("", new EmptyJsonResponse());
