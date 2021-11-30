@@ -28,11 +28,11 @@ public class BoardRepositoryTest extends WebApplicationTests {
 
 	@Test
 	public void saveBoardTest(){
-		Optional<User> newUser = userRepository.findById(1);
+		Optional<User> newUser = userRepository.findById(3);
 		newUser.ifPresent(getUser -> {
 			newBoard = Board.builder()
 					.user(getUser)
-					.title("메인 핫 게시판 테스트3")
+					.title("메세지 확인용")
 					.content("테스트 게시글~~")
 					.categoryId(2)
 					.isHot(true)

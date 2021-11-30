@@ -44,7 +44,7 @@ public class MessageService {
 	public List<MessageDto.getMessageDto> getDetailMessage(int id, int message_id){
 		User from_user = userRepository.getById(id);
 		User to_user = messageRepository.getById(message_id).getToUser();
-		List<Message> messages = messageRepository.findAllByFromUserAndToUserOrderByCreatedAtDesc(from_user, to_user);
+		List<Message> messages = messageRepository.findAllByFromUserAndToUserOrToUserAndFromUserOrderByCreatedAtDesc(from_user, to_user,from_user, to_user);
 		List<MessageDto.getMessageDto> listMessage = messages.stream().map(message->{
 			MessageDto.getMessageDto getMessage = modelMapper.map(message, MessageDto.getMessageDto.class);
 			getMessage.setIs_mine(message.getFromUser().getId() == id);
@@ -55,10 +55,10 @@ public class MessageService {
 	}
 
 	@Transactional
-	public String sendMessage(int id, MessageDto.sendMessageDto dto){
+	public int sendMessage(int id, MessageDto.sendMessageDto dto){
 
 		User fromUser = userRepository.getById(id);
-		String message;
+		int message;
 		User toUser;
 		int toUserId;
 		if(dto.getGroup() == 0){
@@ -75,25 +75,25 @@ public class MessageService {
 			message = checkId(id, dto, toUserId);
 		}
 
-		if (message.equals("")){
+		if (message==0){
 			Message newMessage = Message.builder().content(dto.getContent()).fromUser(fromUser).toUser(toUser).build();
 			messageRepository.save(newMessage);
+			System.out.println(newMessage.getId());
+			return newMessage.getId();
 		}else{
 			return message;
 		}
-
-		return "";
 	}
 
-	public String checkId(int id, MessageDto.sendMessageDto dto, int toUserId){
+	public int checkId(int id, MessageDto.sendMessageDto dto, int toUserId){
 		Optional<User> toUser = userRepository.findById(toUserId);
 		if (toUser.isEmpty()){
-			return "탈퇴한 사용자에게 쪽지를 보낼 수 없습니다.";
+			return 1;
 		}
 		User getToUser = toUser.get();
 		if(getToUser.getId()==id){
-			return "자기 자신에게 쪽지를 보낼 수 없습니다";
+			return 2;
 		}
-		return "";
+		return 0;
 	}
 }

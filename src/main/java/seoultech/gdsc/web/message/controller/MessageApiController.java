@@ -1,6 +1,7 @@
 package seoultech.gdsc.web.message.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.util.NumberUtils;
 import org.springframework.web.bind.annotation.*;
 import seoultech.gdsc.web.entity.Message;
 import seoultech.gdsc.web.message.dto.MessageDto;
@@ -38,12 +39,19 @@ public class MessageApiController {
 	@PostMapping("")
 	public BasicResponse sendMessage(@RequestBody MessageDto.sendMessageDto dto){
 		int id = (int) session.getAttribute("logInUserInfo");
-		String message = messageService.sendMessage(id, dto);
-		if (message.equals("")){
-			return new SuccessResponse<>(dto.getId());
-		}else{
-			return new FailResponse<>(message, new EmptyJsonResponse());
+		int message = messageService.sendMessage(id, dto);
+		if (message==2){
+			return new FailResponse<>("자기 자신에게 쪽지를 보낼 수 없습니다", new EmptyJsonResponse());
+		}else if (message==1)
+		{
+			return new FailResponse<>("탈퇴한 사용자에게 쪽지를 보낼 수 없습니다", new EmptyJsonResponse());
 		}
+		else{
+			int messageId = message;
+			return new SuccessResponse<>(messageId);
+		}
+
+
 
 	}
 }

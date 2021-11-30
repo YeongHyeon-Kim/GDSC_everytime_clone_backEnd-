@@ -31,9 +31,9 @@ public class MessageRepositoryTest {
 		user2 = userRepository.findById(5).get();
 
 		newMessage = Message.builder()
-				.fromUser(user1)
-				.toUser(user2)
-				.content("3이 5한테 보내는 메세지2")
+				.fromUser(user2)
+				.toUser(user1)
+				.content("5가 3한테 보내는 메세지 진짜")
 				.build();
 		messageRepository.save(newMessage);
 	}

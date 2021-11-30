@@ -23,5 +23,5 @@ public interface MessageRepository extends JpaRepository<Message, Integer> {
 	List<Message> getMessage(int id_num);
 
 
-	List<Message> findAllByFromUserAndToUserOrderByCreatedAtDesc(User from_user, User to_user_id);
+	List<Message> findAllByFromUserAndToUserOrToUserAndFromUserOrderByCreatedAtDesc(User from_user, User to_user_id, User to_user_id2, User from_user_id2);
 }
